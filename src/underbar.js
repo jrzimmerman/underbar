@@ -240,9 +240,9 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    _.each(arguments, function(newObj){
+    _.each(arguments, function(newObj) {
       _.each(newObj, function(value, key) {
-        if (obj[key] === undefined) {
+        if(obj[key] === undefined) {
           obj[key] = value;
         }
       });
@@ -292,9 +292,9 @@
   // instead if possible.
   _.memoize = function(func) {
     var memory = {};
-    return function(){
+    return function() {
       if(memory[arguments[0]] === undefined) {
-        memory[arguments[0]] = func.apply(this, arguments);
+        memory[arguments[0]] = func.apply(this,arguments);
       }
       return memory[arguments[0]];
     };
@@ -309,7 +309,7 @@
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments, 2);
     setTimeout(function(){
-      func.apply(this,args);
+      func.apply(this, args);
     }, wait);
   };
 
@@ -327,10 +327,10 @@
   _.shuffle = function(array) {
     var arr = array.slice();
     var shuffled = [];
-    while(arr.length > 0){
-  		var cur = arr.splice(Math.floor(Math.random()*arr.length),1);
-  		shuffled.push(cur[0]);
-	   }
+    while(arr.length > 0) {
+      var current = arr.splice(Math.floor(Math.random() * arr.length),1);
+      shuffled.push(current[0]);
+    }
     return shuffled;
   };
 
@@ -361,6 +361,15 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var zipped = [];
+    for (var i = 0; i < arguments.length; i++) {
+      var inner = [];
+      for (var j = 0; j < arguments.length; j++) {
+        inner.push(arguments[j][i]);
+      }
+      zipped.push(inner);
+    }
+    return zipped;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -368,6 +377,16 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    result = result || [];
+    _.each(nestedArray, function(item) {
+      if(Array.isArray(item)){
+        _.flatten(item, result);
+      } else {
+        result.push(item);
+      }
+    });
+
+    return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
